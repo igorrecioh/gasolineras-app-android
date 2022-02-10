@@ -317,6 +317,7 @@ public class MainActivity extends AppCompatActivity {
             municipioSpinner.setSelection(0);
             municipioSpinner.setEnabled(false);
             buscarBtn.setEnabled(false);
+            cheapest.setChecked(false);
         });
 
         // Switch management
