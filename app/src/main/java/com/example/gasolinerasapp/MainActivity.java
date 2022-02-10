@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
@@ -45,6 +46,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class MainActivity extends AppCompatActivity {
+
+    private ProgressBar progressBar;
 
     private Spinner comunidadSpinner;
     private Spinner provinciaSpinner;
@@ -83,6 +86,8 @@ public class MainActivity extends AppCompatActivity {
         context = this;
 
         // UI Elements initialization
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.VISIBLE);
         comunidadSpinner = (Spinner) findViewById(R.id.comunidadSpinner);
         provinciaSpinner = (Spinner) findViewById(R.id.provinciaSpinner);
         provinciaSpinner.setEnabled(false);
@@ -119,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
         // Initial request for CCAA
         mRequestQueue = Volley.newRequestQueue(this);
         mJsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, response -> {
+            progressBar.setVisibility(View.VISIBLE);
             System.out.println("RCom: " + response);
             Gson gson = new Gson();
             Comunidad[] comunidades = gson.fromJson(String.valueOf(response), Comunidad[].class);
@@ -133,6 +139,7 @@ public class MainActivity extends AppCompatActivity {
             comunidadesArr = keyList.toArray(comunidadesArr);
             adapterCa.addAll(comunidadesArr);
             comunidadSpinner.setAdapter(adapterCa);
+            progressBar.setVisibility(View.GONE);
         }, error -> {
             // System.out.println("Error: " + error.toString());
             Toast toast = Toast.makeText(this, "Revisa tu conexión", Toast.LENGTH_LONG);
@@ -145,6 +152,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if (!adapterView.getItemAtPosition(i).toString().contains("Seleccione")) {
+                    progressBar.setVisibility(View.VISIBLE);
                     provinciaSpinner.setAdapter(null);
                     mapaProv.clear();
                     String provId = mapaCa.get(adapterView.getItemAtPosition(i).toString());
@@ -165,6 +173,7 @@ public class MainActivity extends AppCompatActivity {
                         adapterProv.add("Seleccione Provincia");
                         adapterProv.addAll(provinciasArr);
                         provinciaSpinner.setAdapter(adapterProv);
+                        progressBar.setVisibility(View.GONE);
                     }, error -> {
                         System.out.println("Error: " + error.toString());
                         Toast toast = Toast.makeText(context, "Revisa tu conexión", Toast.LENGTH_LONG);
@@ -187,6 +196,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if (!adapterView.getItemAtPosition(i).toString().contains("Seleccione")) {
+                    progressBar.setVisibility(View.VISIBLE);
                     municipioSpinner.setAdapter(null);
                     mapaMun.clear();
                     String munId = mapaProv.get(adapterView.getItemAtPosition(i).toString());
@@ -207,6 +217,7 @@ public class MainActivity extends AppCompatActivity {
                         adapterMun.add("Seleccione Municipio");
                         adapterMun.addAll(municipiosArr);
                         municipioSpinner.setAdapter(adapterMun);
+                        progressBar.setVisibility(View.GONE);
                     }, error -> {
                         // System.out.println("Error: " + error.toString());
                         Toast toast = Toast.makeText(context, "Revisa tu conexión", Toast.LENGTH_LONG);
@@ -229,7 +240,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if (!adapterView.getItemAtPosition(i).toString().contains("Seleccione")) {
+                    progressBar.setVisibility(View.VISIBLE);
                     buscarBtn.setEnabled(true);
+                    progressBar.setVisibility(View.GONE);
                 } else {
                     buscarBtn.setEnabled(false);
                 }
@@ -258,6 +271,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Buttons' management
         buscarBtn.setOnClickListener(view -> {
+            progressBar.setVisibility(View.VISIBLE);
             String munId = mapaMun.get(municipioSpinner.getSelectedItem().toString());
             mJsonObjectRequest = new JsonObjectRequest(Request.Method.GET, urlEstacionesMun + munId, null, response -> {
                 try {
@@ -280,6 +294,7 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent(this, Main2Activity.class);
                     intent.putExtra("GASOLINERAS", gasolinerasList.toArray());
                     startActivity(intent);
+                    progressBar.setVisibility(View.GONE);
 
                 } catch (JSONException e) {
                     e.printStackTrace();

@@ -31,6 +31,23 @@
         app:layout_constraintTop_toBottomOf="@+id/localidad" />
 
     <TextView
+        android:id="@+id/direccion"
+        android:layout_width="97dp"
+        android:layout_height="43dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="4dp"
+        android:gravity="center"
+        android:text="direccion"
+        android:textColor="@color/teal_700"
+        android:textSize="8sp"
+        app:autoSizeMaxTextSize="100sp"
+        app:autoSizeMinTextSize="6sp"
+        app:autoSizeStepGranularity="1sp"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rotulo" />
+
+    <TextView
         android:id="@+id/localidad"
         android:layout_width="104dp"
         android:layout_height="32dp"

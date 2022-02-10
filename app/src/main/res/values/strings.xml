@@ -4,5 +4,5 @@
     <string name="gasoleoPrem">Gasóleo Premium</string>
     <string name="gasolina95">Gasolina 95</string>
     <string name="gasolina98">Gasolina 98</string>
-    <string name="only_cheapest">Más baratas</string>
+    <string name="only_cheapest">Más baratas primero</string>
 </resources>

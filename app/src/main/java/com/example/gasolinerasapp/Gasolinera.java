@@ -114,6 +114,8 @@ public class Gasolinera implements Serializable {
         return gasolina98E5;
     }
 
+    public String getStreet() { return street; }
+
     @Override
     public String toString() {
         return "Gasolinera{" +

@@ -13,12 +13,13 @@ public class GasolineraAdapter extends RecyclerView.Adapter<GasolineraAdapter.My
     private List<Gasolinera> gasolineras;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView rotulo, localidad, gasoleoA, gasoleoPrem, gasolina95, gasolina98;
+        public TextView rotulo, localidad, direccion, gasoleoA, gasoleoPrem, gasolina95, gasolina98;
 
         public MyViewHolder(View view) {
             super(view);
             rotulo = (TextView) view.findViewById(R.id.rotulo);
             localidad = (TextView) view.findViewById(R.id.localidad);
+            direccion = (TextView) view.findViewById(R.id.direccion);
             gasoleoA = (TextView) view.findViewById(R.id.gasoleoA);
             gasoleoPrem = (TextView) view.findViewById(R.id.gasoleoPrem);
             gasolina95 = (TextView) view.findViewById(R.id.gasolina95);
@@ -44,6 +45,7 @@ public class GasolineraAdapter extends RecyclerView.Adapter<GasolineraAdapter.My
         Gasolinera gasolinera = gasolineras.get(position);
         holder.rotulo.setText(gasolinera.getRotulo());
         holder.localidad.setText(gasolinera.getCity());
+        holder.direccion.setText(gasolinera.getStreet());
         holder.gasoleoA.setText(prettyPrintPrice(gasolinera.getGasA()));
         holder.gasoleoPrem.setText(prettyPrintPrice(gasolinera.getGasPrem()));
         holder.gasolina95.setText(prettyPrintPrice(gasolinera.getGasolina95E5()));
