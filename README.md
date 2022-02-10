@@ -8,9 +8,9 @@ El objetivo de esta aplicación es proporcionar información actualizada sobre g
 ## Cómo se ha desarrollado la aplicación
 ---
 
-La aplicación está desarrollada para dispositivos Android empleando Java como lenguaje principal. Se usan librerías como Volley o GSon.
-
-La interfaz de usuario es extremadamente simple y, por tanto, con mucho márgen de mejora.
+- La aplicación está desarrollada para dispositivos Android empleando Java como lenguaje principal. Se usan librerías como Volley o GSon.
+- Se ha empleado Android Studio para su desarrollo
+- La interfaz de usuario es extremadamente simple y, por tanto, con mucho márgen de mejora.
 
 ## De dónde se obtienen los datos
 ---
@@ -39,4 +39,12 @@ Mi nombre es Igor Recio y aunque trabajo como ingeniero de calidad del software,
 ## Final disclaimer
 ---
 - Revisa la licencia empleada
-- __Recuerda que esto es un proyecto de alguien que no es desarrollador profesional, habrá "cosas" en el código (muy, pero que muy) mejorables. Siéntete libre de abrir un PR o un issue para comentarlas. Con ello mejoras el proyecto y enseñar al resto buenas prácticas de desarrollo.__
+- __Recuerda que esto es un proyecto de alguien que no es desarrollador profesional, habrá "cosas" en el código (muy, pero que muy) mejorables. Siéntete libre de abrir un PR o un issue para comentarlas. Con ello mejoras el proyecto y enseñas al resto buenas prácticas de desarrollo.__
+
+## Capturas
+
+![](images/image-1.png)
+
+![](images/image-2.png)
+
+![](images/image-3.png)
