@@ -26,7 +26,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -105,10 +104,10 @@ public class MainActivity extends AppCompatActivity {
         cheapest = (Switch) findViewById(R.id.cheapestSW);
 
         // Spinner adapters
-        ArrayAdapter<String> adapterCa = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item);
-        ArrayAdapter<String> adapterProv = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item);
-        ArrayAdapter<String> adapterMun = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item);
-        ArrayAdapter<String> adapterComb = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item);
+        ArrayAdapter<String> adapterCa = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item);
+        ArrayAdapter<String> adapterProv = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item);
+        ArrayAdapter<String> adapterMun = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item);
+        ArrayAdapter<String> adapterComb = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item);
 
         adapterCa.add("Seleccione CA");
         adapterProv.add("Seleccione Provincia");
@@ -144,7 +143,6 @@ public class MainActivity extends AppCompatActivity {
             comunidadSpinner.setAdapter(adapterCa);
             progressBar.setVisibility(View.GONE);
         }, error -> {
-            // System.out.println("Error: " + error.toString());
             Toast toast = Toast.makeText(this, "Revisa tu conexión", Toast.LENGTH_LONG);
             toast.show();
         });
@@ -321,17 +319,14 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Switch management
-        cheapest.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                if (isChecked) {
-                    combustiblesSpinner.setEnabled(true);
-                    showCheapest = true;
-                } else {
-                    combustiblesSpinner.setSelection(0);
-                    combustiblesSpinner.setEnabled(false);
-                    showCheapest = false;
-                }
+        cheapest.setOnCheckedChangeListener((compoundButton, isChecked) -> {
+            if (isChecked) {
+                combustiblesSpinner.setEnabled(true);
+                showCheapest = true;
+            } else {
+                combustiblesSpinner.setSelection(0);
+                combustiblesSpinner.setEnabled(false);
+                showCheapest = false;
             }
         });
     }
