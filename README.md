@@ -1,5 +1,7 @@
 # GasolinerasApp
 
+[![Android CI](https://github.com/igorrecioh/gasolineras-app-android/actions/workflows/android.yml/badge.svg?branch=main)](https://github.com/igorrecioh/gasolineras-app-android/actions/workflows/android.yml)
+
 ## Introducción
 ---
 
