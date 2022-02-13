@@ -26,20 +26,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 public class GasolineraAdapter extends RecyclerView.Adapter<GasolineraAdapter.MyViewHolder> {
-    private List<Gasolinera> gasolineras;
+    private final List<Gasolinera> gasolineras;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView rotulo, localidad, direccion, gasoleoA, gasoleoPrem, gasolina95, gasolina98;
 
         public MyViewHolder(View view) {
             super(view);
-            rotulo = (TextView) view.findViewById(R.id.rotulo);
-            localidad = (TextView) view.findViewById(R.id.localidad);
-            direccion = (TextView) view.findViewById(R.id.direccion);
-            gasoleoA = (TextView) view.findViewById(R.id.gasoleoA);
-            gasoleoPrem = (TextView) view.findViewById(R.id.gasoleoPrem);
-            gasolina95 = (TextView) view.findViewById(R.id.gasolina95);
-            gasolina98 = (TextView) view.findViewById(R.id.gasolina98);
+            rotulo = view.findViewById(R.id.rotulo);
+            localidad = view.findViewById(R.id.localidad);
+            direccion = view.findViewById(R.id.direccion);
+            gasoleoA = view.findViewById(R.id.gasoleoA);
+            gasoleoPrem = view.findViewById(R.id.gasoleoPrem);
+            gasolina95 = view.findViewById(R.id.gasolina95);
+            gasolina98 = view.findViewById(R.id.gasolina98);
         }
     }
 
