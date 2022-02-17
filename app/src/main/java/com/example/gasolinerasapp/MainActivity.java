@@ -71,12 +71,10 @@ public class MainActivity extends AppCompatActivity {
     private final String urlMun = "https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburantes/PreciosCarburantes/Listados/MunicipiosPorProvincia/";
     private final String urlEstacionesMun = "https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburantes/PreciosCarburantes/EstacionesTerrestres/FiltroMunicipio/";
 
-    private Map<String, String> mapaCa = new HashMap<>();
-    private Map<String, String> mapaProv = new HashMap<>();
-    private Map<String, String> mapaMun = new HashMap<>();
-    private Map<String, String> mapaComb = new HashMap<>();
-
-    private boolean showCheapest = false;
+    private final Map<String, String> mapaCa = new HashMap<>();
+    private final Map<String, String> mapaProv = new HashMap<>();
+    private final Map<String, String> mapaMun = new HashMap<>();
+    private final Map<String, String> mapaComb = new HashMap<>();
 
     private Context context;
 
@@ -88,20 +86,20 @@ public class MainActivity extends AppCompatActivity {
         context = this;
 
         // UI Elements initialization
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);
-        comunidadSpinner = (Spinner) findViewById(R.id.comunidadSpinner);
-        provinciaSpinner = (Spinner) findViewById(R.id.provinciaSpinner);
+        comunidadSpinner = findViewById(R.id.comunidadSpinner);
+        provinciaSpinner = findViewById(R.id.provinciaSpinner);
         provinciaSpinner.setEnabled(false);
-        municipioSpinner = (Spinner) findViewById(R.id.municipioSpinner);
+        municipioSpinner = findViewById(R.id.municipioSpinner);
         municipioSpinner.setEnabled(false);
-        combustiblesSpinner = (Spinner) findViewById(R.id.combustiblesSpinner);
+        combustiblesSpinner = findViewById(R.id.combustiblesSpinner);
         combustiblesSpinner.setEnabled(false);
-        buscarBtn = (Button) findViewById(R.id.buscarBtn);
+        buscarBtn = findViewById(R.id.buscarBtn);
         buscarBtn.setEnabled(false);
-        limpiarBusquedaBtn = (Button) findViewById(R.id.resetBtn);
+        limpiarBusquedaBtn = findViewById(R.id.resetBtn);
         limpiarBusquedaBtn.setEnabled(false);
-        cheapest = (Switch) findViewById(R.id.cheapestSW);
+        cheapest = findViewById(R.id.cheapestSW);
 
         // Spinner adapters
         ArrayAdapter<String> adapterCa = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item);
@@ -202,7 +200,6 @@ public class MainActivity extends AppCompatActivity {
                     mapaMun.clear();
                     String munId = mapaProv.get(adapterView.getItemAtPosition(i).toString());
                     mJsonArrayRequest = new JsonArrayRequest(Request.Method.GET, urlMun + munId, null, response -> {
-                        System.out.println("RProv: " + response);
                         Gson gson = new Gson();
                         Municipio[] municipios = gson.fromJson(String.valueOf(response), Municipio[].class);
 
@@ -220,7 +217,6 @@ public class MainActivity extends AppCompatActivity {
                         municipioSpinner.setAdapter(adapterMun);
                         progressBar.setVisibility(View.GONE);
                     }, error -> {
-                        // System.out.println("Error: " + error.toString());
                         Toast toast = Toast.makeText(context, "Revisa tu conexión", Toast.LENGTH_LONG);
                         toast.show();
                     });
@@ -260,7 +256,9 @@ public class MainActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if (!adapterView.getItemAtPosition(i).toString().contains("Seleccione")) {
                     selectedCombustible = adapterView.getItemAtPosition(i).toString();
-                    System.out.println("Combustible: " + selectedCombustible);
+                }
+                else{
+                    selectedCombustible = "";
                 }
             }
 
@@ -286,14 +284,9 @@ public class MainActivity extends AppCompatActivity {
                         System.out.println(gasolinera.toString());
                     }
 
-                    Gasolinera.sort(gasolinerasList, selectedCombustible);
-
-                    for (Gasolinera gasolinera : gasolinerasList) {
-                        System.out.println(gasolinera.toString());
-                    }
-
                     Intent intent = new Intent(this, Main2Activity.class);
                     intent.putExtra("GASOLINERAS", gasolinerasList.toArray());
+                    intent.putExtra("COMBUSTIBLE", selectedCombustible);
                     startActivity(intent);
                     progressBar.setVisibility(View.GONE);
 
@@ -322,11 +315,9 @@ public class MainActivity extends AppCompatActivity {
         cheapest.setOnCheckedChangeListener((compoundButton, isChecked) -> {
             if (isChecked) {
                 combustiblesSpinner.setEnabled(true);
-                showCheapest = true;
             } else {
                 combustiblesSpinner.setSelection(0);
                 combustiblesSpinner.setEnabled(false);
-                showCheapest = false;
             }
         });
     }
