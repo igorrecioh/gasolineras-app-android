@@ -88,7 +88,7 @@
                 android:layout_height="wrap_content"
                 android:layout_column="1"
                 android:text="1,239 €"
-                android:textColor="@color/black"
+                android:textColor="@color/teal_200"
                 android:textSize="20sp" />
         </TableRow>
 
@@ -110,7 +110,7 @@
                 android:layout_height="wrap_content"
                 android:layout_column="1"
                 android:text="1,239 €"
-                android:textColor="@color/black"
+                android:textColor="@color/teal_200"
                 android:textSize="20sp" />
 
         </TableRow>
@@ -133,7 +133,7 @@
                 android:layout_height="wrap_content"
                 android:layout_column="1"
                 android:text="1,239 €"
-                android:textColor="@color/black"
+                android:textColor="@color/teal_200"
                 android:textSize="20sp" />
         </TableRow>
 
@@ -155,7 +155,7 @@
                 android:layout_height="wrap_content"
                 android:layout_column="1"
                 android:text="1,239 €"
-                android:textColor="@color/black"
+                android:textColor="@color/teal_200"
                 android:textSize="20sp" />
         </TableRow>
 
