@@ -16,8 +16,10 @@
 
 package com.example.gasolinerasapp;
 
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -30,18 +32,21 @@ import java.util.List;
 
 public class Main2Activity extends AppCompatActivity {
     private List<Gasolinera> gasolineraList = new ArrayList<>();
+    private List<Gasolinera> gasolineraListFiltered = new ArrayList<>();
     private RecyclerView recyclerView;
     private GasolineraAdapter gAdapter;
+    private String selectedCombustible = "";
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
 
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        recyclerView = findViewById(R.id.recycler_view);
         lookForGasolineras();
 
-        gAdapter = new GasolineraAdapter(gasolineraList);
+        gAdapter = new GasolineraAdapter(gasolineraListFiltered);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -49,7 +54,57 @@ public class Main2Activity extends AppCompatActivity {
         recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void lookForGasolineras() {
+        gasolineraListFiltered.clear();
+        gasolineraList.clear();
         gasolineraList = Arrays.asList((Gasolinera[]) getIntent().getSerializableExtra("GASOLINERAS"));
+        selectedCombustible = (String) getIntent().getSerializableExtra("COMBUSTIBLE");
+
+        if (!selectedCombustible.isEmpty()) {
+
+            Gasolinera.sort(gasolineraList, selectedCombustible);
+
+            switch (selectedCombustible) {
+                case "Gasolina 95":
+                    for (Gasolinera gasolinera : gasolineraList) {
+                        if (!gasolinera.getGasolina95E5().trim().isEmpty()) {
+                            gasolineraListFiltered.add(gasolinera);
+                        }
+                    }
+                    break;
+
+                case "Gasolina 98":
+                    for (Gasolinera gasolinera : gasolineraList) {
+                        if (!gasolinera.getGasolina98E5().trim().isEmpty()) {
+                            gasolineraListFiltered.add(gasolinera);
+                        }
+                    }
+                    break;
+
+                case "Gasóleo A":
+                    for (Gasolinera gasolinera : gasolineraList) {
+                        if (!gasolinera.getGasA().trim().isEmpty()) {
+                            gasolineraListFiltered.add(gasolinera);
+                        }
+                    }
+                    break;
+
+                case "Gasóleo Premium":
+                    for (Gasolinera gasolinera : gasolineraList) {
+                        if (!gasolinera.getGasPrem().trim().isEmpty()) {
+                            gasolineraListFiltered.add(gasolinera);
+                        }
+                    }
+                    break;
+
+                default:
+                    gasolineraListFiltered = gasolineraList;
+                    break;
+            }
+
+        } else {
+            gasolineraListFiltered = gasolineraList;
+        }
     }
 }
