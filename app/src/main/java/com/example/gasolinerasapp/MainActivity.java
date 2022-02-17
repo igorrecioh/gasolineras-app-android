@@ -102,10 +102,10 @@ public class MainActivity extends AppCompatActivity {
         cheapest = findViewById(R.id.cheapestSW);
 
         // Spinner adapters
-        ArrayAdapter<String> adapterCa = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item);
-        ArrayAdapter<String> adapterProv = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item);
-        ArrayAdapter<String> adapterMun = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item);
-        ArrayAdapter<String> adapterComb = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item);
+        ArrayAdapter<String> adapterCa = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<String> adapterProv = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<String> adapterMun = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<String> adapterComb = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item);
 
         adapterCa.add("Seleccione CA");
         adapterProv.add("Seleccione Provincia");
