@@ -16,8 +16,12 @@
 
 package com.example.gasolinerasapp;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -50,6 +54,22 @@ public class Main2Activity extends AppCompatActivity {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        gAdapter.setOnLongClickListener(view -> {
+            Uri gmmIntentUri = Uri.parse("geo:"
+                    + gasolineraListFiltered.get(recyclerView.getChildAdapterPosition(view)).getLatitude().replace(",", ".")
+                    + ","
+                    + gasolineraListFiltered.get(recyclerView.getChildAdapterPosition(view)).getLongitude().replace(",", ".") +
+                    "?q="
+                    + gasolineraListFiltered.get(recyclerView.getChildAdapterPosition(view)).getStreet()
+
+            );
+
+            Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+            mapIntent.setPackage("com.google.android.apps.maps");
+            startActivity(mapIntent);
+            return false;
+        });
         recyclerView.setAdapter(gAdapter);
         recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
     }
