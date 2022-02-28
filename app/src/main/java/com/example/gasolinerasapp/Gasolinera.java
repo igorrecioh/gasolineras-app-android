@@ -132,6 +132,14 @@ public class Gasolinera implements Serializable {
 
     public String getStreet() { return street; }
 
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
     @Override
     public String toString() {
         return "Gasolinera{" +

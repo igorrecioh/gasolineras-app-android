@@ -25,8 +25,23 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class GasolineraAdapter extends RecyclerView.Adapter<GasolineraAdapter.MyViewHolder> {
+public class GasolineraAdapter extends RecyclerView.Adapter<GasolineraAdapter.MyViewHolder> implements View.OnLongClickListener{
+
+    private View.OnLongClickListener longListener;
     private final List<Gasolinera> gasolineras;
+
+    public void setOnLongClickListener(View.OnLongClickListener longListener){
+        this.longListener = longListener;
+    }
+
+    @Override
+    public boolean onLongClick(View view) {
+        if(longListener != null){
+            longListener.onLongClick(view);
+            return true;
+        }
+        return false;
+    }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView rotulo, localidad, direccion, gasoleoA, gasoleoPrem, gasolina95, gasolina98;
@@ -53,6 +68,7 @@ public class GasolineraAdapter extends RecyclerView.Adapter<GasolineraAdapter.My
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.gasolinera_list_row, parent, false);
 
+        itemView.setOnLongClickListener(this);
         return new MyViewHolder(itemView);
     }
 
