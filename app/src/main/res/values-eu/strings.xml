@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">GasolindegiApp</string>
+
+    <string name="gasoleoA">A gasolioa</string>
+    <string name="gasoleoPrem">Premium gasolioa</string>
+    <string name="gasolina95">95 gasolina</string>
+    <string name="gasolina98">98 gasolina</string>
+
+    <string name="only_cheapest">Merkeeneak lehenengo</string>
+    <string name="buscar">BILATU</string>
+    <string name="limpiar_busqueda">GARBITU BILAKETA</string>
+    <string name="err_con">Konexio errorea. Saiatu berriro</string>
+
+    <string name="sel_ca">AE aukeratu</string>
+    <string name="sel_prov">Probintzia aukeratu</string>
+    <string name="sel_mun">Udalerria aukeratu</string>
+    <string name="sel_comb">Erregaia aukeratu</string>
+</resources>

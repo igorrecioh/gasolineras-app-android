@@ -16,12 +16,16 @@
 
 package com.example.gasolinerasapp;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -30,6 +34,7 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -49,6 +54,7 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
+    private androidx.appcompat.widget.Toolbar myToolbar;
     private ProgressBar progressBar;
 
     private Spinner comunidadSpinner;
@@ -85,6 +91,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         context = this;
 
+        myToolbar = findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
+
         // UI Elements initialization
         progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);
@@ -107,10 +116,10 @@ public class MainActivity extends AppCompatActivity {
         ArrayAdapter<String> adapterMun = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item);
         ArrayAdapter<String> adapterComb = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item);
 
-        adapterCa.add("Seleccione CA");
-        adapterProv.add("Seleccione Provincia");
-        adapterMun.add("Seleccione Municipio");
-        adapterComb.add("Seleccione combustible");
+        adapterCa.add(getString(R.string.sel_ca));
+        adapterProv.add(getString(R.string.sel_prov));
+        adapterMun.add(getString(R.string.sel_mun));
+        adapterComb.add(getString(R.string.sel_comb));
         adapterComb.add(getString(R.string.gasoleoA));
         adapterComb.add(getString(R.string.gasoleoPrem));
         adapterComb.add(getString(R.string.gasolina95));
@@ -120,6 +129,8 @@ public class MainActivity extends AppCompatActivity {
         provinciaSpinner.setAdapter(adapterProv);
         municipioSpinner.setAdapter(adapterMun);
         combustiblesSpinner.setAdapter(adapterComb);
+
+        cheapest.setEnabled(false);
 
         // Initial request for CCAA
         mRequestQueue = Volley.newRequestQueue(this);
@@ -133,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
                 mapaCa.put(comunidades[i].getComunidad(), comunidades[i].getIdComunidad());
             }
 
-            ArrayList<String> keyList = new ArrayList<String>(mapaCa.keySet());
+            ArrayList<String> keyList = new ArrayList<>(mapaCa.keySet());
             String[] comunidadesArr = new String[keyList.size()];
             Collections.sort(keyList);
             comunidadesArr = keyList.toArray(comunidadesArr);
@@ -141,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
             comunidadSpinner.setAdapter(adapterCa);
             progressBar.setVisibility(View.GONE);
         }, error -> {
-            Toast toast = Toast.makeText(this, "Revisa tu conexión", Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(this, getString(R.string.err_con), Toast.LENGTH_LONG);
             toast.show();
         });
         mRequestQueue.add(mJsonArrayRequest);
@@ -150,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
         comunidadSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (!adapterView.getItemAtPosition(i).toString().contains("Seleccione")) {
+                if (!adapterView.getItemAtPosition(i).toString().equals(getString(R.string.sel_ca))) {
                     progressBar.setVisibility(View.VISIBLE);
                     provinciaSpinner.setAdapter(null);
                     mapaProv.clear();
@@ -169,13 +180,13 @@ public class MainActivity extends AppCompatActivity {
                         Collections.sort(keyList);
                         provinciasArr = keyList.toArray(provinciasArr);
                         adapterProv.clear();
-                        adapterProv.add("Seleccione Provincia");
+                        adapterProv.add(getString(R.string.sel_prov));
                         adapterProv.addAll(provinciasArr);
                         provinciaSpinner.setAdapter(adapterProv);
                         progressBar.setVisibility(View.GONE);
                     }, error -> {
                         System.out.println("Error: " + error.toString());
-                        Toast toast = Toast.makeText(context, "Revisa tu conexión", Toast.LENGTH_LONG);
+                        Toast toast = Toast.makeText(context, getString(R.string.err_con), Toast.LENGTH_LONG);
                         toast.show();
                     });
                     mRequestQueue.add(mJsonArrayRequest);
@@ -194,7 +205,7 @@ public class MainActivity extends AppCompatActivity {
         provinciaSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (!adapterView.getItemAtPosition(i).toString().contains("Seleccione")) {
+                if (!adapterView.getItemAtPosition(i).toString().equals(getString(R.string.sel_prov))) {
                     progressBar.setVisibility(View.VISIBLE);
                     municipioSpinner.setAdapter(null);
                     mapaMun.clear();
@@ -212,12 +223,12 @@ public class MainActivity extends AppCompatActivity {
                         Collections.sort(keyList);
                         municipiosArr = keyList.toArray(municipiosArr);
                         adapterMun.clear();
-                        adapterMun.add("Seleccione Municipio");
+                        adapterMun.add(getString(R.string.sel_mun));
                         adapterMun.addAll(municipiosArr);
                         municipioSpinner.setAdapter(adapterMun);
                         progressBar.setVisibility(View.GONE);
                     }, error -> {
-                        Toast toast = Toast.makeText(context, "Revisa tu conexión", Toast.LENGTH_LONG);
+                        Toast toast = Toast.makeText(context, getString(R.string.err_con), Toast.LENGTH_LONG);
                         toast.show();
                     });
                     mRequestQueue.add(mJsonArrayRequest);
@@ -236,11 +247,13 @@ public class MainActivity extends AppCompatActivity {
         municipioSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (!adapterView.getItemAtPosition(i).toString().contains("Seleccione")) {
+                if (!adapterView.getItemAtPosition(i).toString().equals(getString(R.string.sel_mun))) {
                     progressBar.setVisibility(View.VISIBLE);
+                    cheapest.setEnabled(true);
                     buscarBtn.setEnabled(true);
                     progressBar.setVisibility(View.GONE);
                 } else {
+                    cheapest.setEnabled(false);
                     buscarBtn.setEnabled(false);
                 }
             }
@@ -254,7 +267,7 @@ public class MainActivity extends AppCompatActivity {
         combustiblesSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (!adapterView.getItemAtPosition(i).toString().contains("Seleccione")) {
+                if (!adapterView.getItemAtPosition(i).toString().equals(getString(R.string.sel_comb))) {
                     selectedCombustible = adapterView.getItemAtPosition(i).toString();
                 }
                 else{
@@ -295,7 +308,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }, error -> {
                 System.out.println("Error: " + error.toString());
-                Toast toast = Toast.makeText(context, "Revisa tu conexión", Toast.LENGTH_LONG);
+                Toast toast = Toast.makeText(context, getString(R.string.err_con), Toast.LENGTH_LONG);
                 toast.show();
             });
             mRequestQueue.add(mJsonObjectRequest);
@@ -320,5 +333,28 @@ public class MainActivity extends AppCompatActivity {
                 combustiblesSpinner.setEnabled(false);
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        getMenuInflater().inflate(R.menu.toolbar, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId()){
+            case R.id.action_settings:
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage("v0.0.1")
+                        .setTitle("INFO");
+                AlertDialog dialog = builder.create();
+                dialog.show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
