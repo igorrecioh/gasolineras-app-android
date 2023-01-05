@@ -6,14 +6,27 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        android:visibility="visible"
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        tools:layout_editor_absoluteX="0dp" />
+
     <Spinner
         android:id="@+id/comunidadSpinner"
         android:layout_width="353dp"
         android:layout_height="60dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/my_toolbar" />
 
     <Spinner
         android:id="@+id/provinciaSpinner"
@@ -38,7 +51,7 @@
         android:layout_width="153dp"
         android:layout_height="92dp"
         android:layout_marginTop="104dp"
-        android:text="BUSCAR"
+        android:text="@string/buscar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.112"
@@ -51,7 +64,7 @@
         android:layout_width="153dp"
         android:layout_height="92dp"
         android:layout_marginTop="104dp"
-        android:text="Limpiar búsqueda"
+        android:text="@string/limpiar_busqueda"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.887"
@@ -61,10 +74,11 @@
 
     <Switch
         android:id="@+id/cheapestSW"
-        android:layout_width="116dp"
-        android:layout_height="65dp"
+        android:layout_width="129dp"
+        android:layout_height="52dp"
         android:layout_marginTop="44dp"
         android:text="@string/only_cheapest"
+        android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.054"
         app:layout_constraintStart_toStartOf="parent"
@@ -74,9 +88,9 @@
         android:id="@+id/combustiblesSpinner"
         android:layout_width="229dp"
         android:layout_height="34dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="44dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.686"
+        app:layout_constraintHorizontal_bias="0.578"
         app:layout_constraintStart_toEndOf="@+id/cheapestSW"
         app:layout_constraintTop_toBottomOf="@+id/municipioSpinner" />
 

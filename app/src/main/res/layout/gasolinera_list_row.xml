@@ -56,15 +56,15 @@
         android:textAlignment="center"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="15sp"
-        app:autoSizeMaxTextSize="100sp"
-        app:autoSizeMinTextSize="12sp"
+        app:autoSizeMaxTextSize="50sp"
+        app:autoSizeMinTextSize="9sp"
         app:autoSizeStepGranularity="1sp"
         app:autoSizeTextType="uniform"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TableLayout
-        android:layout_width="267dp"
+        android:layout_width="220dp"
         android:layout_height="110dp"
         android:stretchColumns="0,1"
         app:layout_constraintStart_toStartOf="parent"
@@ -76,7 +76,7 @@
 
             <TextView
                 android:id="@+id/gasAFixed"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_column="0"
                 android:text="@string/gasoleoA"
@@ -84,10 +84,11 @@
 
             <TextView
                 android:id="@+id/gasoleoA"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_column="1"
                 android:text="1,239 €"
+                android:textAlignment="viewStart"
                 android:textColor="@color/teal_200"
                 android:textSize="20sp" />
         </TableRow>
@@ -98,7 +99,7 @@
 
             <TextView
                 android:id="@+id/gasPFixed"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_column="0"
                 android:text="@string/gasoleoPrem"
@@ -106,10 +107,11 @@
 
             <TextView
                 android:id="@+id/gasoleoPrem"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_column="1"
                 android:text="1,239 €"
+                android:textAlignment="viewStart"
                 android:textColor="@color/teal_200"
                 android:textSize="20sp" />
 
@@ -121,7 +123,7 @@
 
             <TextView
                 android:id="@+id/gas95Fixed"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_column="0"
                 android:text="@string/gasolina95"
@@ -129,10 +131,11 @@
 
             <TextView
                 android:id="@+id/gasolina95"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_column="1"
                 android:text="1,239 €"
+                android:textAlignment="viewStart"
                 android:textColor="@color/teal_200"
                 android:textSize="20sp" />
         </TableRow>
@@ -143,7 +146,7 @@
 
             <TextView
                 android:id="@+id/gas98Fixed"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_column="0"
                 android:text="@string/gasolina98"
@@ -151,10 +154,11 @@
 
             <TextView
                 android:id="@+id/gasolina98"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_column="1"
                 android:text="1,239 €"
+                android:textAlignment="viewStart"
                 android:textColor="@color/teal_200"
                 android:textSize="20sp" />
         </TableRow>

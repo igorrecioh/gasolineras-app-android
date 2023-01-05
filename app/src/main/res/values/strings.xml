@@ -1,8 +1,19 @@
 <resources>
     <string name="app_name">GasolinerasApp</string>
+
     <string name="gasoleoA">Gasóleo A</string>
     <string name="gasoleoPrem">Gasóleo Premium</string>
     <string name="gasolina95">Gasolina 95</string>
     <string name="gasolina98">Gasolina 98</string>
+
     <string name="only_cheapest">Más baratas primero</string>
+    <string name="buscar">BUSCAR</string>
+    <string name="limpiar_busqueda">LIMPIAR BÚSQUEDA</string>
+    <string name="err_con">Error de conexión. Inténtalo de nuevo</string>
+
+    <string name="sel_ca">Seleccione CA</string>
+    <string name="sel_prov">Seleccione Provincia</string>
+    <string name="sel_mun">Seleccione Municipio</string>
+    <string name="sel_comb">Seleccione combustible</string>
+
 </resources>
