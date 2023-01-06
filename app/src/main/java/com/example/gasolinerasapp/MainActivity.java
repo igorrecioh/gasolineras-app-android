@@ -22,7 +22,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -34,7 +33,6 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
