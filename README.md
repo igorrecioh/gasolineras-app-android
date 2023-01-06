@@ -7,6 +7,15 @@
 
 El objetivo de esta aplicación es proporcionar información actualizada sobre gasolineras y precios de combustible. Esta información se obtiene directamente de la API pública expuesta por el Ministerio de Asuntos Económicos y Transformación Digital del Gobierno de España.
 
+## Funcionalidades
+---
+
+- Búsqueda de gasolineras por CA, provincia y municipio
+- Filtro por precio más económico según combustible elegido
+- Soporte para idiomas:
+  - Euskara
+  - Español
+- En la lista de gasolineras, tras realizar pulsación prolongada sobre una de las gasolineras se redirige a Google Maps con la dirección de la estación
 ## Cómo se ha desarrollado la aplicación
 ---
 
