@@ -83,46 +83,44 @@ public class Main2Activity extends AppCompatActivity {
 
         if (!selectedCombustible.isEmpty()) {
 
-            Gasolinera.sort(gasolineraList, selectedCombustible);
+            Gasolinera.sort(gasolineraList, selectedCombustible, this);
 
-            switch (selectedCombustible) {
-                case "Gasolina 95":
-                    for (Gasolinera gasolinera : gasolineraList) {
-                        if (!gasolinera.getGasolina95E5().trim().isEmpty()) {
-                            gasolineraListFiltered.add(gasolinera);
-                        }
+            if(selectedCombustible.equals(getString(R.string.gasolina95)))
+            {
+                for (Gasolinera gasolinera : gasolineraList) {
+                    if (!gasolinera.getGasolina95E5().trim().isEmpty()) {
+                        gasolineraListFiltered.add(gasolinera);
                     }
-                    break;
-
-                case "Gasolina 98":
-                    for (Gasolinera gasolinera : gasolineraList) {
-                        if (!gasolinera.getGasolina98E5().trim().isEmpty()) {
-                            gasolineraListFiltered.add(gasolinera);
-                        }
-                    }
-                    break;
-
-                case "Gasóleo A":
-                    for (Gasolinera gasolinera : gasolineraList) {
-                        if (!gasolinera.getGasA().trim().isEmpty()) {
-                            gasolineraListFiltered.add(gasolinera);
-                        }
-                    }
-                    break;
-
-                case "Gasóleo Premium":
-                    for (Gasolinera gasolinera : gasolineraList) {
-                        if (!gasolinera.getGasPrem().trim().isEmpty()) {
-                            gasolineraListFiltered.add(gasolinera);
-                        }
-                    }
-                    break;
-
-                default:
-                    gasolineraListFiltered = gasolineraList;
-                    break;
+                }
             }
-
+            else if(selectedCombustible.equals(getString(R.string.gasolina98)))
+            {
+                for (Gasolinera gasolinera : gasolineraList) {
+                    if (!gasolinera.getGasolina98E5().trim().isEmpty()) {
+                        gasolineraListFiltered.add(gasolinera);
+                    }
+                }
+            }
+            else if(selectedCombustible.equals(getString(R.string.gasoleoA)))
+            {
+                for (Gasolinera gasolinera : gasolineraList) {
+                    if (!gasolinera.getGasA().trim().isEmpty()) {
+                        gasolineraListFiltered.add(gasolinera);
+                    }
+                }
+            }
+            else if(selectedCombustible.equals(getString(R.string.gasoleoPrem)))
+            {
+                for (Gasolinera gasolinera : gasolineraList) {
+                    if (!gasolinera.getGasPrem().trim().isEmpty()) {
+                        gasolineraListFiltered.add(gasolinera);
+                    }
+                }
+            }
+            else
+            {
+                gasolineraListFiltered = gasolineraList;
+            }
         } else {
             gasolineraListFiltered = gasolineraList;
         }

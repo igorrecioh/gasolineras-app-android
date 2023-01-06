@@ -16,6 +16,8 @@
 
 package com.example.gasolinerasapp;
 
+import android.content.Context;
+import android.content.res.Resources;
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
@@ -173,15 +175,16 @@ public class Gasolinera implements Serializable {
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public static List<Gasolinera> sort(List<Gasolinera> gasolineras, String by)
+    public static List<Gasolinera> sort(List<Gasolinera> gasolineras, String by, Context context)
     {
-        if (by.equals("Gasóleo A")) {
+
+        if (by.equals(context.getResources().getString(R.string.gasoleoA))) {
             gasolineras.sort(Comparator.comparing(Gasolinera::getGasA));
-        } else if (by.equals("Gasóleo Premium")) {
+        } else if (by.equals(context.getResources().getString(R.string.gasoleoPrem))) {
             gasolineras.sort(Comparator.comparing(Gasolinera::getGasPrem));
-        } else if (by.equals("Gasolina 95")) {
+        } else if (by.equals(context.getResources().getString(R.string.gasolina95))) {
             gasolineras.sort(Comparator.comparing(Gasolinera::getGasolina95E5));
-        } else if (by.equals("Gasolina 98")) {
+        } else if (by.equals(context.getResources().getString(R.string.gasolina98))) {
             gasolineras.sort(Comparator.comparing(Gasolinera::getGasolina98E5));
         }
         return gasolineras;
