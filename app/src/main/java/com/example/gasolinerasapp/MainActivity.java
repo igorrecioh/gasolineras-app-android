@@ -346,7 +346,7 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.action_settings:
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setMessage("v0.0.2")
+                builder.setMessage("v0.0.3")
                         .setTitle("INFO");
                 AlertDialog dialog = builder.create();
                 dialog.show();
