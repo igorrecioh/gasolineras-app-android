@@ -181,6 +181,11 @@ public class MainActivity extends AppCompatActivity {
                         adapterProv.add(getString(R.string.sel_prov));
                         adapterProv.addAll(provinciasArr);
                         provinciaSpinner.setAdapter(adapterProv);
+
+                        //Si la Comunidad Autónoma sólo tiene una Provincia, dejamos ésta seleccionada.
+                        if (provincias.length == 1) {
+                            provinciaSpinner.setSelection(1);
+                        }
                         progressBar.setVisibility(View.GONE);
                     }, error -> {
                         System.out.println("Error: " + error.toString());
@@ -224,6 +229,11 @@ public class MainActivity extends AppCompatActivity {
                         adapterMun.add(getString(R.string.sel_mun));
                         adapterMun.addAll(municipiosArr);
                         municipioSpinner.setAdapter(adapterMun);
+
+                        //Si la Provincia seleccionada sólo tiene un Municipio, dejamos éste seleccionado.
+                        if (municipios.length == 1) {
+                            municipioSpinner.setSelection(1);
+                        }
                         progressBar.setVisibility(View.GONE);
                     }, error -> {
                         Toast toast = Toast.makeText(context, getString(R.string.err_con), Toast.LENGTH_LONG);
