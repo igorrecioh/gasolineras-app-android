@@ -48,7 +48,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -354,7 +353,11 @@ public class MainActivity extends AppCompatActivity {
                     System.out.println(response.getJSONArray("ListaEESSPrecio"));
                     Gson gson = new Gson();
                     Gasolinera[] gasolineras = gson.fromJson(String.valueOf(response.getJSONArray("ListaEESSPrecio")), Gasolinera[].class);
+
                     List<Gasolinera> gasolinerasList = Arrays.asList(gasolineras);
+                    for (Gasolinera gasolinera : gasolinerasList) {
+                        System.out.println(gasolinera.toString());
+                    }
 
                     Intent intent = new Intent(this, Main2Activity.class);
                     intent.putExtra("GASOLINERAS", gasolinerasList.toArray());
