@@ -22,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -47,6 +48,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -82,12 +84,15 @@ public class MainActivity extends AppCompatActivity {
 
     private Context context;
 
+
     @SuppressLint("NewApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         context = this;
+
+
 
         myToolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
@@ -130,6 +135,18 @@ public class MainActivity extends AppCompatActivity {
 
         cheapest.setEnabled(false);
 
+        //Creamos esta variable para guardar los valores seleccionados por el usuario al presionar Buscar, y para usarlos como valores iniciales en las siguientes ejecuciones de la aplicación
+        SharedPreferences prefs = getPreferences(MODE_PRIVATE);
+
+        //Leemos el valor del Switch cheaper de los valores guardados, y cargamos dicho valor en el switch (si el valor no estaba guardado, se pone a False)
+        //Si activamos el switch, también activamos el combustible.
+        if(Boolean.parseBoolean(prefs.getString("CheapestSwitch", "false")))
+        {
+            cheapest.setChecked(true);
+            combustiblesSpinner.setEnabled(true);
+            combustiblesSpinner.setSelection(Integer.parseInt(prefs.getString("IndiceCombustible", "0")));
+
+        }
         // Initial request for CCAA
         mRequestQueue = Volley.newRequestQueue(this);
         mJsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, response -> {
@@ -148,6 +165,10 @@ public class MainActivity extends AppCompatActivity {
             comunidadesArr = keyList.toArray(comunidadesArr);
             adapterCa.addAll(comunidadesArr);
             comunidadSpinner.setAdapter(adapterCa);
+
+            //Leemos el índice de la Comunidad seleccionada en ejecuciones anteriores, y la dejamos seleccionada en esta ejecución.
+            comunidadSpinner.setSelection(Integer.parseInt(prefs.getString("IndiceComunidad", "0")));
+
             progressBar.setVisibility(View.GONE);
         }, error -> {
             Toast toast = Toast.makeText(this, getString(R.string.err_con), Toast.LENGTH_LONG);
@@ -159,6 +180,7 @@ public class MainActivity extends AppCompatActivity {
         comunidadSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
                 if (!adapterView.getItemAtPosition(i).toString().equals(getString(R.string.sel_ca))) {
                     progressBar.setVisibility(View.VISIBLE);
                     provinciaSpinner.setAdapter(null);
@@ -182,6 +204,13 @@ public class MainActivity extends AppCompatActivity {
                         adapterProv.addAll(provinciasArr);
                         provinciaSpinner.setAdapter(adapterProv);
 
+                        //Leemos el índice de la Provincia seleccionada en ejecuciones anteriores, y la dejamos seleccionada en esta ejecución (sólo si la Comunidad seleccionada anteriormente es la misma que en la ejecución anterior)
+                        int comunidadSeleccionada = Integer.parseInt(String.valueOf(comunidadSpinner.getSelectedItemId()));
+                        int comunidadAlmacenada = Integer.parseInt(prefs.getString("IndiceComunidad", "0"));
+                        if (comunidadSeleccionada == comunidadAlmacenada){
+                            provinciaSpinner.setSelection(Integer.parseInt(prefs.getString("IndiceProvincia", "0")));
+                        }
+
                         //Si la Comunidad Autónoma sólo tiene una Provincia, dejamos ésta seleccionada.
                         if (provincias.length == 1) {
                             provinciaSpinner.setSelection(1);
@@ -197,6 +226,9 @@ public class MainActivity extends AppCompatActivity {
                     limpiarBusquedaBtn.setEnabled(true);
                 } else {
                     provinciaSpinner.setEnabled(false);
+                    municipioSpinner.setEnabled(false);
+                    provinciaSpinner.setSelection(0);
+                    municipioSpinner.setSelection(0);
                 }
             }
 
@@ -205,6 +237,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
         provinciaSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -214,6 +247,7 @@ public class MainActivity extends AppCompatActivity {
                     mapaMun.clear();
                     String munId = mapaProv.get(adapterView.getItemAtPosition(i).toString());
                     mJsonArrayRequest = new JsonArrayRequest(Request.Method.GET, urlMun + munId, null, response -> {
+                        System.out.println("RMunic: " + response);
                         Gson gson = new Gson();
                         Municipio[] municipios = gson.fromJson(String.valueOf(response), Municipio[].class);
 
@@ -230,6 +264,13 @@ public class MainActivity extends AppCompatActivity {
                         adapterMun.addAll(municipiosArr);
                         municipioSpinner.setAdapter(adapterMun);
 
+                        //Leemos el índice del Municipio seleccionado en ejecuciones anteriores, y lo dejamos seleccionado en esta ejecución (sólo si la Provincia seleccionada es la misma que en la ejecución anterior)
+                        int provinciaSeleccionada = Integer.parseInt(String.valueOf(provinciaSpinner.getSelectedItemId()));
+                        int provinciaAlmacenada = Integer.parseInt(prefs.getString("IndiceProvincia", "0"));
+                        if (provinciaSeleccionada == provinciaAlmacenada) {
+                            municipioSpinner.setSelection(Integer.parseInt(prefs.getString("IndiceMunicipio", "0")));
+                        }
+
                         //Si la Provincia seleccionada sólo tiene un Municipio, dejamos éste seleccionado.
                         if (municipios.length == 1) {
                             municipioSpinner.setSelection(1);
@@ -243,6 +284,7 @@ public class MainActivity extends AppCompatActivity {
                     municipioSpinner.setEnabled(true);
                 } else {
                     municipioSpinner.setEnabled(false);
+                    municipioSpinner.setSelection(0);
                 }
             }
 
@@ -259,10 +301,12 @@ public class MainActivity extends AppCompatActivity {
                     progressBar.setVisibility(View.VISIBLE);
                     cheapest.setEnabled(true);
                     buscarBtn.setEnabled(true);
+                    combustiblesSpinner.setEnabled(true);
                     progressBar.setVisibility(View.GONE);
                 } else {
                     cheapest.setEnabled(false);
                     buscarBtn.setEnabled(false);
+                    combustiblesSpinner.setEnabled(false);
                 }
             }
 
@@ -293,17 +337,24 @@ public class MainActivity extends AppCompatActivity {
         buscarBtn.setOnClickListener(view -> {
             progressBar.setVisibility(View.VISIBLE);
             String munId = mapaMun.get(municipioSpinner.getSelectedItem().toString());
+
+            //Declaramos un objeto sharedPreferences para almacenar los valores seleccionados por el usuario
+            SharedPreferences.Editor editor = prefs.edit();
+            //Almacenamos los diferentes valores elegidos por el usuario para hacer la consulta
+            editor.putString("IndiceComunidad", String.valueOf(comunidadSpinner.getSelectedItemPosition()));
+            editor.putString("IndiceProvincia", String.valueOf(provinciaSpinner.getSelectedItemPosition()));
+            editor.putString("IndiceMunicipio", String.valueOf(municipioSpinner.getSelectedItemPosition()));
+            editor.putString("CheapestSwitch", String.valueOf(cheapest.isChecked()));
+            editor.putString("IndiceCombustible", String.valueOf(combustiblesSpinner.getSelectedItemPosition()));
+            editor.commit();
+
+
             mJsonObjectRequest = new JsonObjectRequest(Request.Method.GET, urlEstacionesMun + munId, null, response -> {
                 try {
                     System.out.println(response.getJSONArray("ListaEESSPrecio"));
                     Gson gson = new Gson();
                     Gasolinera[] gasolineras = gson.fromJson(String.valueOf(response.getJSONArray("ListaEESSPrecio")), Gasolinera[].class);
-
                     List<Gasolinera> gasolinerasList = Arrays.asList(gasolineras);
-
-                    for (Gasolinera gasolinera : gasolinerasList) {
-                        System.out.println(gasolinera.toString());
-                    }
 
                     Intent intent = new Intent(this, Main2Activity.class);
                     intent.putExtra("GASOLINERAS", gasolinerasList.toArray());
