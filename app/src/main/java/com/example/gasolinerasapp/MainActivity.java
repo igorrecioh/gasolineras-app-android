@@ -21,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -277,8 +278,7 @@ public class MainActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if (!adapterView.getItemAtPosition(i).toString().equals(getString(R.string.sel_comb))) {
                     selectedCombustible = adapterView.getItemAtPosition(i).toString();
-                }
-                else{
+                } else {
                     selectedCombustible = "";
                 }
             }
@@ -344,21 +344,51 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
+    public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId()){
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog dialog;
+
+        switch (item.getItemId()) {
             case R.id.action_settings:
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setMessage("v0.0.3")
                         .setTitle("INFO");
-                AlertDialog dialog = builder.create();
+                dialog = builder.create();
+                dialog.show();
+                return true;
+            case R.id.custom_fuel:
+                builder.setTitle("Personalizar combustibles");
+                String[] items = {"java", "android", "Data Structures", "HTML", "CSS"};
+                boolean[] checkedItems = {false, false, false, false, false, false};
+                builder.setMultiChoiceItems(
+                        items,
+                        checkedItems,
+                        (dialog1, which, isChecked) -> {
+                            switch (which) {
+                                case 0:
+                                    if (isChecked)
+                                    break;
+                                case 1:
+                                    if (isChecked)
+                                    break;
+                                case 2:
+                                    if (isChecked)
+                                    break;
+                                case 3:
+                                    if (isChecked)
+                                    break;
+                                case 4:
+                                    if (isChecked)
+                                    break;
+                            }
+                        });
+                dialog = builder.create();
                 dialog.show();
                 return true;
             default:
