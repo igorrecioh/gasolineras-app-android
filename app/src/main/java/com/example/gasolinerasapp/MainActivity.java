@@ -30,7 +30,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ProgressBar;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
@@ -364,8 +366,8 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.custom_fuel:
                 builder.setTitle("Personalizar combustibles");
-                String[] items = {"java", "android", "Data Structures", "HTML", "CSS"};
-                boolean[] checkedItems = {false, false, false, false, false, false};
+                String[] items = {"G95E5", "G95E10", "G95E5+", "G98E5", "G98E10", "GOA", "GOA+", "GOB", "GOC", "BIE", "BIO", "GLP", "GNC", "GNL", "H2"};
+                boolean[] checkedItems = {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false};
                 builder.setMultiChoiceItems(
                         items,
                         checkedItems,
