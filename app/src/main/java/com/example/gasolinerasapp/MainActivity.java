@@ -407,16 +407,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
-        switch (item.getItemId()){
-            case R.id.action_settings:
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setMessage("v0.0.3")
-                        .setTitle("INFO");
-                AlertDialog dialog = builder.create();
-                dialog.show();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.action_settings) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("v0.0.3")
+                    .setTitle("INFO");
+            AlertDialog dialog = builder.create();
+            dialog.show();
+            return true;
+        }
+        else {
+            return super.onOptionsItemSelected(item);
         }
     }
 }
