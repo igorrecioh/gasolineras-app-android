@@ -16,6 +16,8 @@
 
 package com.example.gasolinerasapp;
 
+import static android.widget.Toast.LENGTH_LONG;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -166,11 +168,16 @@ public class MainActivity extends AppCompatActivity {
             comunidadSpinner.setAdapter(adapterCa);
 
             //Leemos el índice de la Comunidad seleccionada en ejecuciones anteriores, y la dejamos seleccionada en esta ejecución.
-            comunidadSpinner.setSelection(Integer.parseInt(prefs.getString("IndiceComunidad", "0")));
+            String comunidadGuardada = prefs.getString("Comunidad", "");
+            int pos = adapterCa.getPosition(comunidadGuardada);
+
+            if (pos >= 0) {
+                comunidadSpinner.setSelection(pos);
+            }
 
             progressBar.setVisibility(View.GONE);
         }, error -> {
-            Toast toast = Toast.makeText(this, getString(R.string.err_con), Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(this, getString(R.string.err_con), LENGTH_LONG);
             toast.show();
         });
         mRequestQueue.add(mJsonArrayRequest);
@@ -203,11 +210,16 @@ public class MainActivity extends AppCompatActivity {
                         adapterProv.addAll(provinciasArr);
                         provinciaSpinner.setAdapter(adapterProv);
 
-                        //Leemos el índice de la Provincia seleccionada en ejecuciones anteriores, y la dejamos seleccionada en esta ejecución (sólo si la Comunidad seleccionada anteriormente es la misma que en la ejecución anterior)
-                        int comunidadSeleccionada = Integer.parseInt(String.valueOf(comunidadSpinner.getSelectedItemId()));
-                        int comunidadAlmacenada = Integer.parseInt(prefs.getString("IndiceComunidad", "0"));
-                        if (comunidadSeleccionada == comunidadAlmacenada){
-                            provinciaSpinner.setSelection(Integer.parseInt(prefs.getString("IndiceProvincia", "0")));
+                        //Leemos la Provincia seleccionada en ejecuciones anteriores, y la dejamos seleccionada en esta ejecución (sólo si la Comunidad seleccionada anteriormente es la misma que en la ejecución anterior)
+                        String comunidadSeleccionada = comunidadSpinner.getSelectedItem().toString();
+                        String comunidadAlmacenada = prefs.getString("Comunidad", "");
+                        if (comunidadAlmacenada.equals(comunidadSeleccionada)) {
+                            String provinciaGuardada = prefs.getString("Provincia", "");
+                            int pos = adapterProv.getPosition(provinciaGuardada);
+
+                            if (pos >= 0) {
+                                provinciaSpinner.setSelection(pos);
+                            }
                         }
 
                         //Si la Comunidad Autónoma sólo tiene una Provincia, dejamos ésta seleccionada.
@@ -217,7 +229,7 @@ public class MainActivity extends AppCompatActivity {
                         progressBar.setVisibility(View.GONE);
                     }, error -> {
                         System.out.println("Error: " + error.toString());
-                        Toast toast = Toast.makeText(context, getString(R.string.err_con), Toast.LENGTH_LONG);
+                        Toast toast = Toast.makeText(context, getString(R.string.err_con), LENGTH_LONG);
                         toast.show();
                     });
                     mRequestQueue.add(mJsonArrayRequest);
@@ -264,10 +276,15 @@ public class MainActivity extends AppCompatActivity {
                         municipioSpinner.setAdapter(adapterMun);
 
                         //Leemos el índice del Municipio seleccionado en ejecuciones anteriores, y lo dejamos seleccionado en esta ejecución (sólo si la Provincia seleccionada es la misma que en la ejecución anterior)
-                        int provinciaSeleccionada = Integer.parseInt(String.valueOf(provinciaSpinner.getSelectedItemId()));
-                        int provinciaAlmacenada = Integer.parseInt(prefs.getString("IndiceProvincia", "0"));
-                        if (provinciaSeleccionada == provinciaAlmacenada) {
-                            municipioSpinner.setSelection(Integer.parseInt(prefs.getString("IndiceMunicipio", "0")));
+                        String provinciaSeleccionada = provinciaSpinner.getSelectedItem().toString();
+                        String provinciaAlmacenada = prefs.getString("Provincia", "");
+                        if (provinciaAlmacenada.equals(provinciaSeleccionada)) {
+                            String municipioGuardado = prefs.getString("Municipio", "");
+                            int pos = adapterMun.getPosition(municipioGuardado);
+
+                            if (pos >= 0) {
+                                municipioSpinner.setSelection(pos);
+                            }
                         }
 
                         //Si la Provincia seleccionada sólo tiene un Municipio, dejamos éste seleccionado.
@@ -276,7 +293,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                         progressBar.setVisibility(View.GONE);
                     }, error -> {
-                        Toast toast = Toast.makeText(context, getString(R.string.err_con), Toast.LENGTH_LONG);
+                        Toast toast = Toast.makeText(context, getString(R.string.err_con), LENGTH_LONG);
                         toast.show();
                     });
                     mRequestQueue.add(mJsonArrayRequest);
@@ -340,17 +357,21 @@ public class MainActivity extends AppCompatActivity {
             //Declaramos un objeto sharedPreferences para almacenar los valores seleccionados por el usuario
             SharedPreferences.Editor editor = prefs.edit();
             //Almacenamos los diferentes valores elegidos por el usuario para hacer la consulta
-            editor.putString("IndiceComunidad", String.valueOf(comunidadSpinner.getSelectedItemPosition()));
-            editor.putString("IndiceProvincia", String.valueOf(provinciaSpinner.getSelectedItemPosition()));
-            editor.putString("IndiceMunicipio", String.valueOf(municipioSpinner.getSelectedItemPosition()));
+            editor.putString("Comunidad", comunidadSpinner.getSelectedItem().toString());
+            editor.putString("Provincia", provinciaSpinner.getSelectedItem().toString());
+            editor.putString("Municipio", municipioSpinner.getSelectedItem().toString());
             editor.putString("CheapestSwitch", String.valueOf(cheapest.isChecked()));
-            editor.putString("IndiceCombustible", String.valueOf(combustiblesSpinner.getSelectedItemPosition()));
+            editor.putString("Combustible", combustiblesSpinner.getSelectedItem().toString());
             editor.commit();
 
 
             mJsonObjectRequest = new JsonObjectRequest(Request.Method.GET, urlEstacionesMun + munId, null, response -> {
                 try {
                     System.out.println(response.getJSONArray("ListaEESSPrecio"));
+
+                    Toast toast = Toast.makeText(context, response.getString("Fecha").toString(), Toast.LENGTH_LONG);
+                    toast.show();
+
                     Gson gson = new Gson();
                     Gasolinera[] gasolineras = gson.fromJson(String.valueOf(response.getJSONArray("ListaEESSPrecio")), Gasolinera[].class);
 
@@ -360,7 +381,7 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     Intent intent = new Intent(this, Main2Activity.class);
-                    intent.putExtra("GASOLINERAS", gasolinerasList.toArray());
+                    intent.putExtra("GASOLINERAS", gasolinerasList.toArray(new Gasolinera[0]));
                     intent.putExtra("COMBUSTIBLE", selectedCombustible);
                     startActivity(intent);
                     progressBar.setVisibility(View.GONE);
@@ -370,7 +391,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }, error -> {
                 System.out.println("Error: " + error.toString());
-                Toast toast = Toast.makeText(context, getString(R.string.err_con), Toast.LENGTH_LONG);
+                Toast toast = Toast.makeText(context, getString(R.string.err_con), LENGTH_LONG);
                 toast.show();
             });
             mRequestQueue.add(mJsonObjectRequest);
@@ -409,7 +430,7 @@ public class MainActivity extends AppCompatActivity {
     {
         if (item.getItemId() == R.id.action_settings) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("v0.0.3")
+            builder.setMessage("v0.0.4")
                     .setTitle("INFO");
             AlertDialog dialog = builder.create();
             dialog.show();
