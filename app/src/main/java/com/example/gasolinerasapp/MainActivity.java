@@ -430,7 +430,7 @@ public class MainActivity extends AppCompatActivity {
     {
         if (item.getItemId() == R.id.action_settings) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("v0.0.4")
+            builder.setMessage("v0.0.5")
                     .setTitle("INFO");
             AlertDialog dialog = builder.create();
             dialog.show();
