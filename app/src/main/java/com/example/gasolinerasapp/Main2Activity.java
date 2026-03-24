@@ -33,6 +33,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class Main2Activity extends AppCompatActivity {
     private List<Gasolinera> gasolineraList = new ArrayList<>();
@@ -78,7 +79,7 @@ public class Main2Activity extends AppCompatActivity {
     private void lookForGasolineras() {
         gasolineraListFiltered.clear();
         gasolineraList.clear();
-        gasolineraList = Arrays.asList((Gasolinera[]) getIntent().getSerializableExtra("GASOLINERAS"));
+        gasolineraList = Arrays.asList((Gasolinera[]) Objects.requireNonNull(getIntent().getSerializableExtra("GASOLINERAS")));
         selectedCombustible = (String) getIntent().getSerializableExtra("COMBUSTIBLE");
 
         if (!selectedCombustible.isEmpty()) {
